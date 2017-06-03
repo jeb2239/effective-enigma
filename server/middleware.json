@@ -40,7 +40,11 @@
       ]
     }
   },
-  "files": {},
+  "files": {
+    "loopback#static": {
+    "params": "$!../client/elm/" 
+    }
+  },
   "final": {
     "loopback#urlNotFound": {}
   },
