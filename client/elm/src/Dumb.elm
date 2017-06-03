@@ -20,14 +20,14 @@ main =
 
 
 type alias Model =
-  { dieFace : Int
- 
+  { dieFace : Int,
+    listo : List String
   }
 
 
 init : (Model, Cmd Msg)
 init =
-  (Model 1 , Cmd.none)
+  ((Model 1 ["hello"]), Cmd.none)
 
 
 
@@ -48,11 +48,11 @@ update msg model =
     Roll ->
       (model, Random.generate NewFace (Random.int 1 6))
     NewFace newFace ->
-      (Model newFace, Cmd.none)
+      (Model newFace model.listo, Cmd.none)
     Check ->
-      ( model, check (toString model.dieFace) )
+      ( model, check ((toString model.dieFace) ++ (toString model.listo)) )
     Suggest newSuggestions ->
-      ( Model model.dieFace , Cmd.none )
+      ( Model model.dieFace newSuggestions , Cmd.none )
 
 
 
@@ -73,6 +73,7 @@ view : Model -> Html Msg
 view model =
   div []
     [ h1 [] [ text (toString model.dieFace) ]
+    , h1 [] [ text (toString model.listo )]
     , button [ onClick Roll ] [ text "Roll" ]
     , button [ onClick Check] [text "Check" ]
     ]
