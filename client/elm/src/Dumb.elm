@@ -47,15 +47,11 @@ update msg model =
   case msg of
     Roll ->
       (model, Random.generate NewFace (Random.int 1 6))
-
     NewFace newFace ->
       (Model newFace, Cmd.none)
-
     Check ->
       ( model, check (toString model.dieFace) )
-
     Suggest newSuggestions ->
-        
       ( Model model.dieFace , Cmd.none )
 
 
