@@ -24,9 +24,13 @@ dotenv.load({ silent: true });
 
 // For local development, specify the username and password or set env properties
 const ltAuthService = new watson.AuthorizationV1({
-  username: process.env.TONE_ANALYZER_USERNAME || '<username>',
-  password: process.env.TONE_ANALYZER_PASSWORD || '<password>',
-  url: watson.ToneAnalyzerV3.URL
+  // username: process.env.TONE_ANALYZER_USERNAME || '<username>',
+  // password: process.env.TONE_ANALYZER_PASSWORD || '<password>',
+  // url: watson.ToneAnalyzerV3.URL
+  username: '7e5cdf3e-63f4-4de7-8be0-2a794c3c67fd', // replace with username from service key
+  password: 'LFPqmWlRfOQd', // replace with password from service key
+  path: { workspace_id: '2187bd3d-1528-4831-bc39-bd5899e50612' }, // replace with workspace ID
+  version_date: '2017-06-03'
 });
 
 app.get('/api/token/tone_analyzer', function(req, res) {
