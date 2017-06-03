@@ -9,7 +9,8 @@
     "lint": "eslint .",
     "start": "node .",
     "posttest": "npm run lint && nsp check",
-    "compile": "tsc -p tsconfig.json && cp ./server/*.json ./dist/server/ && cp ./common/models/*.json ./dist/common/models"
+    "compile": "tsc -p tsconfig.json && cp ./server/*.json ./dist/server/ && cp ./common/models/*.json ./dist/common/models",
+    "compilew": "tsc -p tsconfig.json && cp .\\server\\*.json .\\dist\\server\\ && cp .\\common\\models\\*.json .\\dist\\common\\models"
   },
   "dependencies": {
     "@types/express": "^4.0.35",
