@@ -10,7 +10,7 @@
 *.swp
 *.tgz
 *.xml
-*.js
+
 *.map
 .DS_Store
 .idea
