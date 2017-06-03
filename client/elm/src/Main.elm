@@ -1,6 +1,7 @@
 
 module Main exposing (..)
 
+
 import Html exposing (..)
 -- import Html.App as Html
 import Html.Events exposing (..)
@@ -84,17 +85,17 @@ init =
   , numberOfQuestionsAsked = 0
   , numberOfGoodQuestionsAsked = 0
   , inputEnabled = True
-  , triggerWords = Data.triggerWords
-  , questionWords = Data.questionWords
+  , triggerWords = [] -- Data.triggerWords
+  , questionWords = [] -- Data.questionWords
   , questionsAsked = []
   , answersGiven = []
-  , generalAnswers = Data.generalAnswers
-  , annoyedAnswers = Data.annoyedAnswers
-  , angryAnswers = Data.angryAnswers
+  , generalAnswers = [] --Data.generalAnswers
+  , annoyedAnswers = [] --Data.annoyedAnswers
+  , angryAnswers = [] --Data.angryAnswers
   , askButtonDisabled = False
-  , finishedAngryAnswers = Data.finishedAngryAnswers
-  , finishedPoliteAnswers = Data.finishedPoliteAnswers
-  , questionNotClearAnswers = Data.questionNotClearAnswers
+  , finishedAngryAnswers =[]-- Data.finishedAngryAnswers
+  , finishedPoliteAnswers = [] --Data.finishedPoliteAnswers
+  , questionNotClearAnswers = [] --Data.questionNotClearAnswers
   , newAnswerGenerated = True
   , questionTextStyle = 
       Animation.style
@@ -166,7 +167,7 @@ goodQuestion model =
     -- Convert the `currentQuestion` string into an array of words
     currentQuestionArray =
       String.Extra.decapitalize model.currentQuestion
-      |> Format.removePunctuation
+    --   |> Format.removePunctuation
       |> String.words
 
     -- `sharedElements` takes two arrays as arguments and returns a new array
@@ -185,7 +186,7 @@ isNotAQuestion model =
     -- Convert the `currentQuestion` string into an array of words
     currentQuestionArray =
       String.Extra.decapitalize model.currentQuestion
-      |> Format.removePunctuation
+    --   |> Format.removePunctuation
       |> String.words
 
     -- `sharedElements` takes two arrays as arguments and returns a new array
@@ -878,7 +879,7 @@ view model =
       , Textfield.label "Type a question and press Ask..."
       , Textfield.rows 2
       --, Textfield.label "Enter words here..."
-      , Textfield. (Json.map msg targetValue)
+      , Options.input (Json.map msg targetValue)
       , Options.on "keydown" (Json.map tagger keyCode)
       , Options.input 
         [ css "display" "block"
@@ -959,7 +960,7 @@ view model =
        , Button.raised
        , Button.colored
        --, Button.onClick FadeInOut -- SendStoryComponents 
-       , Button.onClick msg -- AskQuestion
+       , Options.on msg -- AskQuestion
        --, css "margin-top" "0.5em"
        , css "display" "block"
        , css "margin-top" "1em"
@@ -971,12 +972,12 @@ view model =
     -- The specific way in which this essay should be formatted
 
     format : String -> String
-    format question =
-      Format.trimExtraWhitespace question
-      |> Format.addFinalQuestionMark
-      |> Format.removeSpaceBeforePeriod
-      |> Format.capitalizeFirstCharacter
-      |> Format.addQuotes
+    format question = question
+  --    Format.trimExtraWhitespace question
+ --     |> Format.addFinalQuestionMark
+ --     |> Format.removeSpaceBeforePeriod
+  --    |> Format.capitalizeFirstCharacter
+  --    |> Format.addQuotes
       --|> (Format.formatAuthorOfQuotation question.format)
       --|> Format.addSpaceBetweenSentences
 
