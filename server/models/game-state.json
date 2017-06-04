@@ -9,7 +9,7 @@
     "id": {
       "type": "number",
       "id": true,
-      "generated" : true,
+      "generated": true,
       "required": false
     },
     "level": {

@@ -41,5 +41,17 @@
   "game_state": {
     "dataSource": "gamedb",
     "public": true
+  },
+  "Inventory": {
+    "dataSource": "gamedb",
+    "public": true
+  },
+  "Friends": {
+    "dataSource": "gamedb",
+    "public": true
+  },
+  "Equipment": {
+    "dataSource": "gamedb",
+    "public": true
   }
 }
