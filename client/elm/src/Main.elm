@@ -14,7 +14,6 @@ import List.Extra
 import Random
 import Markdown
 import Material
-
 import Material.Textfield as Textfield
 import Material.Options as Options exposing (css,on,input)
 import Material.Options exposing (css)
@@ -23,10 +22,14 @@ import Material.Grid exposing (grid, cell, size, offset, Device(..))
 import Animation
 import Animation.Messenger exposing (State)
 import Material.Scheme
---import Data
+import Json.Decode
+import Http
+
+
 
 
 -- DEFAULTS
+
 
 type alias Defaults =
   { imagesLocation : String
@@ -135,7 +138,7 @@ type Answer
 -- UPDATE
 
 type Msg
-  = MDL (Material.Msg Msg)
+  = MDL (Material.Msg Msg) -- lifting function
   | AnimateQuestion Animation.Msg
   | AnimateAnswer Animation.Msg
   | AnimateInstructionBox Animation.Msg
@@ -156,6 +159,24 @@ type Msg
   | GetAnswer Answer Int
   | UpdateAnswerArrays Answer Int
   | NoOp
+  | WatsonResp (Result Http.Error String)
+
+
+
+-- HTTP
+
+
+getWatsonResponse : String -> Cmd Msg
+getWatsonResponse message = 
+  let url = "https://effective-enigma.mybluemix.net/watson?usr_msg=" ++ message
+  in
+  Http.send WatsonResp (Http.get url decodeWatsonResp)
+
+
+decodeWatsonResp : Json.Decoder String
+decodeWatsonResp =
+    Json.Decode.at ["data"] Json.string
+
 
 
 -- Helper functions
@@ -609,6 +630,12 @@ update msg model =
       Material.update MDL msg model
 
     
+    WatsonResp (Ok newUrl) ->
+            ( model , Cmd.none )
+
+
+    WatsonResp (Err _) ->
+            ( model, Cmd.none )
 
     NoOp ->
       model ! []

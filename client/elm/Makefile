@@ -1,5 +1,5 @@
 
-client: install elmmake
+client: install main
 	webpack
 
 install:
@@ -9,5 +9,5 @@ elmmake:
 	elm-make src/Dumb.elm --output=dumb.js
 
 
-main:
+main: 
 	elm-make src/Main.elm --output=main.js

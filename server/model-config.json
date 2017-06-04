@@ -41,5 +41,9 @@
   "game_state": {
     "dataSource": "gamedb",
     "public": true
+  },
+  "items": {
+    "dataSource": "gamedb",
+    "public": true
   }
 }
