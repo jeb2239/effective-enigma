@@ -12,8 +12,13 @@
 		var suggestions = ["suggestions"];
 		app.ports.suggestions.send(suggestions);
     });
-	watson_bindings.run();
-	console.log(this);
+	//watson_bindings.run();
+	//console.log(this);
+
+    app.ports.check.subscribe(function(phrase){
+        var watson = watson_bindings.getWatson(phrase)
+        app.ports.watson.send(watson)
+    });
     // Note: if your Elm module is named "MyThing.Root" you
     // would call "Elm.MyThing.Root.embed(node)" instead.
 </script>

@@ -1,5 +1,6 @@
 var prompt = require('prompt-sync')();
 var ConversationV1 = require('watson-developer-cloud/conversation/v1');
+var promise = require('promise')
 
 // Set up Conversation service.
 var conversation = new ConversationV1({
@@ -77,6 +78,8 @@ function getWatson(str) {
   });
   // return "hi..." ;
 }
+
+
 var newMessageFromUser = ""
 while(newMessageFromUser != "no") {
 // conversation.message({}, processResponse);

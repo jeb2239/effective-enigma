@@ -53,23 +53,54 @@ function Hello(){
 //      }
 // });
     console.log(getWatson("where am I?"));
-}
-module.exports = {
- getWatson :function(str) {
 
-  conversation.message({
-  input: { text: str }//,
-  // workspace_id: '<workspace id>'
-  }, function(err, response) {
-       if (err) {
-         console.error(err);
-       } else {
-         console.log(JSON.stringify(response.output.text[0], null, 2));
-         var ret = JSON.stringify(response.output.text[0], null, 2); //response.output.text[0];
-         // console.log(ret)
-         return ret;
-       }
-  });
+
+}
+
+
+const message = function(text, context) {
+  const payload = {
+    workspace_id: process.env.WORKSPACE_ID || '<workspace_id>',
+    input: {
+      text: text
+    },
+    context: context
+  };
+  return new Promise((resolve, reject) =>
+    conversation.message(payload, function(err, data) {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(data);
+      }
+    })
+  );
+};
+
+// message('first message', undefined)
+//   .then(response1 => {
+//     // APPLICATION-SPECIFIC CODE TO PROCESS THE DATA
+//     // FROM CONVERSATION SERVICE
+//     console.log(JSON.stringify(response1, null, 2), '\n--------');
+
+//     // invoke a second call to conversation
+//     return message('second message', response1.context);
+//   })
+//   .then(response2 => {
+//     console.log(JSON.stringify(response2, null, 2), '\n--------');
+//     console.log('Note that the two reponses should have the same context.conversation_id');
+//   })
+//   .catch(err => {
+//     // APPLICATION-SPECIFIC CODE TO PROCESS THE ERROR
+//     // FROM CONVERSATION SERVICE
+//     console.error(JSON.stringify(err, null, 2));
+//   });
+
+
+module.exports = {
+ getWatson :function(text) {
+
+  return message(text, message );
   // return "hi..." ;
 }
 }
