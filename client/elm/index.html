@@ -1,6 +1,8 @@
 <div id="dumb"></div>
 <script src="dumb.js"></script>
+<script src="bundlelib.js"></script>
 <script>
+	
     var node = document.getElementById('dumb');
     var app = Elm.Dumb.embed(node);
 
@@ -10,8 +12,8 @@
 		var suggestions = ["suggestions"];
 		app.ports.suggestions.send(suggestions);
     });
-
-	
+	watson_bindings.run();
+	console.log(this);
     // Note: if your Elm module is named "MyThing.Root" you
     // would call "Elm.MyThing.Root.embed(node)" instead.
 </script>
