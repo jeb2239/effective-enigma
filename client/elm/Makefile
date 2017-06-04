@@ -2,6 +2,9 @@
 install:
 	elm-package install
 
-client: install
+elmmake:
+	elm-make src/Dumb.elm --output=dumb.js
+
+client: install elmmake
 	webpack
 
