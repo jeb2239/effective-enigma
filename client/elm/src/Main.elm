@@ -14,6 +14,7 @@ import List.Extra
 import Random
 import Markdown
 import Material
+
 import Material.Textfield as Textfield
 import Material.Options as Options exposing (css,on,input)
 import Material.Options exposing (css)
@@ -602,7 +603,7 @@ update msg model =
       ! [ ]
 
     MDL msg ->
-      Material.update msg model
+      Material.update (\t -> case t of (Material.Msg m) -> m) model model
 
     NoOp ->
       model ! []
@@ -918,7 +919,7 @@ view model =
             , Button.raised
             , Button.colored
             --, Button.onClick FadeInOut -- SendStoryComponents 
-            , Button.onClick message -- AskQuestion
+            , Options.onClick message -- AskQuestion
             , Button.disabled 
             --, css "margin-top" "0.5em"
             , css "display" "inline"
@@ -938,7 +939,7 @@ view model =
             , Button.raised
             , Button.colored
             --, Button.onClick FadeInOut -- SendStoryComponents 
-            , Button.onClick message -- AskQuestion
+            , Options.onClick message -- AskQuestion
             --, css "margin-top" "0.5em"
             , css "display" "inline"
             , css "float" "right"
@@ -981,31 +982,31 @@ view model =
       --|> (Format.formatAuthorOfQuotation question.format)
       --|> Format.addSpaceBetweenSentences
 
-    addQuotes : String -> String
-    addQuotes =
-      Format.addQuotes
+    -- addQuotes : String -> String
+    -- addQuotes =
+    --   Format.addQuotes
 
     gameOverText =
 
       -- The user finished asking 5 questions, but didn't ask any good questions
       if model.numberOfQuestionsAsked == 5 && model.numberOfGoodQuestionsAsked == 0 then
-        Data.result0 
+        "Data.result0" 
 
       -- The user finished asking questions, and asked 1 good question
       else if model.numberOfQuestionsAsked == 5 && model.numberOfGoodQuestionsAsked == 1 then
-        Data.result1
+        "Data.result1"
 
       -- The user finished asking questions, and asked 2 good questions
       else if model.numberOfQuestionsAsked == 5 && model.numberOfGoodQuestionsAsked == 2 then
-        Data.result4
+        "Data.result4"
 
       -- The user finished asking questions, and asked 3 good questions
       else if model.numberOfQuestionsAsked == 5 && model.numberOfGoodQuestionsAsked == 3 then
-        Data.result2
+        "Data.result2"
 
       -- The user asked less than 5 questions and asked 3 good questions
       else if model.numberOfQuestionsAsked < 5 && model.numberOfGoodQuestionsAsked == 3 then
-        Data.result3
+        "Data.result3"
  
       -- The default: this should never appear, so if it does you there's something wrong
       -- with the way the questions are being counted
@@ -1103,7 +1104,7 @@ view model =
           [ h1 [ titleStyle ] [ text "Interview the Prime Minister" ]
           , img [ src (defaults.imagesLocation ++ "newspaperClippingMedium.png"), newspaperClippingImageStyle ] [ ]
           , div [ instructionsContainerStyle ] 
-            [ Markdown.toHtml [ instructionsStyle ]  Data.instructions
+            [ Markdown.toHtml [ instructionsStyle ]  "hey"
             ]
           ]
 
@@ -1113,7 +1114,7 @@ view model =
           [ Markdown.toHtml [ id "gameOver" ] gameOverText
           , hr [ horizontalRuleStyle ] [ ]
           , printInterview -- div [ publishedInterviewContainerStyle ] (List.indexedMap questionList (List.reverse model.questionsAsked))
-          , generateTryAgainButton 2 "Try Again" FadeOutGameOverBox
+          , generateTryAgainButton 2 "Try Again" "FadeOutGameOverBox"
           ]
         ]
 
@@ -1135,7 +1136,7 @@ view model =
         -- are absolutely positioned
         , div [ questionAndReplyContainer ] 
           --[ p (Animation.render model.questionTextStyle ++ [ questionStyle ]) [ text <| format model.currentQuestion ]
-          [ p (Animation.render model.answerTextStyle ++ [ answerStyle ]) [ text <| addQuotes model.currentAnswer ]
+          [ p (Animation.render model.answerTextStyle ++ [ answerStyle ]) [ text {--<| addQuotes--} model.currentAnswer ]
           ]
         -- Diagnostic
         {-
