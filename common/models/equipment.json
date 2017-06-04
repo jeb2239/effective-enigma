@@ -1,0 +1,26 @@
+{
+  "name": "Equipment",
+  "base": "Inventory",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "Attack": {
+      "type": "number",
+      "default": 0
+    },
+    "Defense": {
+      "type": "number",
+      "default": 0
+    },
+    "FlavorText": {
+      "type": "string",
+      "default": "\"This is an Equipment that is you can equip\""
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

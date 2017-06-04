@@ -42,7 +42,15 @@
     "dataSource": "gamedb",
     "public": true
   },
-  "items": {
+  "Inventory": {
+    "dataSource": "gamedb",
+    "public": true
+  },
+  "Friends": {
+    "dataSource": "gamedb",
+    "public": true
+  },
+  "Equipment": {
     "dataSource": "gamedb",
     "public": true
   }
