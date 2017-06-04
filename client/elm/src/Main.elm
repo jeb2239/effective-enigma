@@ -22,6 +22,7 @@ import Material.Button as Button
 import Material.Grid exposing (grid, cell, size, offset, Device(..))
 import Animation
 import Animation.Messenger exposing (State)
+import Material.Scheme
 --import Data
 
 
@@ -86,12 +87,12 @@ init =
   , numberOfQuestionsAsked = 0
   , numberOfGoodQuestionsAsked = 0
   , inputEnabled = True
-  , triggerWords = [] -- Data.triggerWords
-  , questionWords = [] -- Data.questionWords
-  , questionsAsked = []
-  , answersGiven = []
-  , generalAnswers = [] --Data.generalAnswers
-  , annoyedAnswers = [] --Data.annoyedAnswers
+  , triggerWords = ["hello"] -- Data.triggerWords
+  , questionWords = ["a question word"] -- Data.questionWords
+  , questionsAsked = ["a new word"]
+  , answersGiven = ["a cat in a hat"]
+  , generalAnswers = ["cat hat"] --Data.generalAnswers
+  , annoyedAnswers = ["hat feed"] --Data.annoyedAnswers
   , angryAnswers = [] --Data.angryAnswers
   , askButtonDisabled = False
   , finishedAngryAnswers =[]-- Data.finishedAngryAnswers
@@ -162,6 +163,8 @@ type Msg
 
 -- `goodQuestion` checks whether there are any common words between the
 -- list of trigger words and the array of the model's `currentQuestion` string
+-- goodQuestion: { a | currentQuestion : String, triggerWords : List String } -> Bool
+
 goodQuestion model =
   let
 
@@ -603,7 +606,7 @@ update msg model =
       ! [ ]
 
     MDL msg ->
-      Material.update (\t -> case t of (Material.Msg m) -> m) model model
+      Material.update MDL msg model
 
     NoOp ->
       model ! []
@@ -880,7 +883,7 @@ view model =
       , Textfield.label "Type a question and press Ask..."
       , Textfield.rows 2
       --, Textfield.label "Enter words here..."
-      , Options.input (Json.map msg targetValue)
+      , Options.on "input" (Json.map msg targetValue)
       , Options.on "keydown" (Json.map tagger keyCode)
       , Options.input 
         [ css "display" "block"
@@ -961,7 +964,7 @@ view model =
        , Button.raised
        , Button.colored
        --, Button.onClick FadeInOut -- SendStoryComponents 
-       , Options.on msg -- AskQuestion
+       , Options.onClick msg -- AskQuestion
        --, css "margin-top" "0.5em"
        , css "display" "block"
        , css "margin-top" "1em"
@@ -1114,7 +1117,7 @@ view model =
           [ Markdown.toHtml [ id "gameOver" ] gameOverText
           , hr [ horizontalRuleStyle ] [ ]
           , printInterview -- div [ publishedInterviewContainerStyle ] (List.indexedMap questionList (List.reverse model.questionsAsked))
-          , generateTryAgainButton 2 "Try Again" "FadeOutGameOverBox"
+          , generateTryAgainButton 2 "Try Again" FadeOutGameOverBox
           ]
         ]
 
@@ -1124,7 +1127,7 @@ view model =
         --[ img [ src (defaults.imagesLocation ++ "primeMinisterInFrame.png"), primeMinisterImageStyle ] [ ]
         [ video [ width 400, height 300, autoplay True, loop True ]  [  source [ src "video/general.mp4" ] [ ] ] 
         , div [ questionBoxContainerStyle ] 
-          [ mdlTextfield 0 ReadInput
+          [ mdlTextfield 0 ReadInput 0
           , generateButton 1 "Ask!" FadeInOutQuestion
           , div [ hintContainerStyle ]
             [ img [ src (defaults.imagesLocation ++ emojiType), width 32, height 32, emojiStyle ] []
@@ -1146,7 +1149,9 @@ view model =
         -}
         ]
       ]
-    ]
+    ] |> Material.Scheme.top
+
+
 
 
 -- SUBSCRIPTIONS
