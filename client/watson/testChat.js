@@ -10,7 +10,16 @@ var conversation = new ConversationV1({
 })
 
 // Start conversation with empty message.
-conversation.message({}, processResponse);
+console.log("hi")
+  conversation.message({}, function(err, response) {
+       if (err) {
+         console.error(err);
+         // return err;
+       } else {
+         // console.log(JSON.stringify(response, null, 2));
+         return JSON.stringify(response, null, 2); //response.output.text[0];
+       }
+  });
 
 // Process the conversation response.
 function processResponse(err, response) {
@@ -19,30 +28,59 @@ function processResponse(err, response) {
     return;
   }
 
-  var endConversation = false;
+  // var endConversation = false;
   
-  // Check for action flags.
-  if (response.output.action === 'display_time') {
-    // User asked what time it is, so we output the local system time.
-    console.log('The current time is ' + new Date().toLocaleTimeString());
-  } else if (response.output.action === 'end_conversation') {
-    // User said goodbye, so we're done.
-    console.log(response.output.text[0]);
-    endConversation = true;
-  } else {
-    // Display the output from dialog, if any.
-    if (response.output.text.length != 0) {
-        console.log(response.output.text[0]);
-    }
-  }
+  // // Check for action flags.
+ 
+  // console.log(response.output.text[0]);
 
-  // If we're not done, prompt for the next round of input.
-  if (!endConversation) {
-    var newMessageFromUser = prompt('>> ');
-    conversation.message({
-      input: { text: newMessageFromUser },
-      // Send back the context to maintain state.
-      context : response.context,
-    }, processResponse)
-  }
+  // // If we're not done, prompt for the next round of input.
+  // if (!endConversation) {
+  //   var newMessageFromUser = prompt('>> ');
+  //   conversation.message({
+  //     input: { text: newMessageFromUser },
+  //     // Send back the context to maintain state.
+  //     context : response.context,
+  //   }, processResponse)
+  // }
+}
+
+function getWatson(str) {
+  // try{
+  // conversation.message({
+  //     input: { text: str },
+  //     // Send back the context to maintain state.
+  //     context : response.context,
+  //   }, processResponse)
+  //   return response.output.text[0];
+  // } catch(err) {
+  //       console.log(err);
+  //   }
+  // conversation.message({
+  //     input: { text: newMessageFromUser } //,
+  //     // Send back the context to maintain state.
+  //     // context : response.context,
+  //   }, processResponse)
+  // return conversation.message({}, processResponse);
+  conversation.message({
+  input: { text: str }//,
+  // workspace_id: '<workspace id>'
+  }, function(err, response) {
+       if (err) {
+         console.error(err);
+       } else {
+         console.log(JSON.stringify(response.output.text[0], null, 2));
+         var ret = JSON.stringify(response.output.text[0], null, 2); //response.output.text[0];
+         // console.log(ret)
+         return ret;
+       }
+  });
+  // return "hi..." ;
+}
+var newMessageFromUser = ""
+while(newMessageFromUser != "no") {
+// conversation.message({}, processResponse);
+// console.log(getWatson(""))
+newMessageFromUser = prompt('>> ');
+console.log(getWatson(newMessageFromUser))
 }
