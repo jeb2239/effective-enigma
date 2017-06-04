@@ -608,6 +608,8 @@ update msg model =
     MDL msg ->
       Material.update MDL msg model
 
+    
+
     NoOp ->
       model ! []
 
@@ -921,10 +923,10 @@ view model =
             [ Button.ripple
             , Button.raised
             , Button.colored
-            --, Button.onClick FadeInOut -- SendStoryComponents 
+            -- , Options.onClick FadeInOut -- SendStoryComponents 
             , Options.onClick message -- AskQuestion
             , Button.disabled 
-            --, css "margin-top" "0.5em"
+            , css "margin-top" "0.5em"
             , css "display" "inline"
             , css "float" "right"
             , css "margin-left" "30px"

@@ -37,7 +37,7 @@ init =
 type Msg
   = Roll
   | Check
-  | Suggest (List String)
+  | Watson (List String)
   | NewFace Int
 
 port check : String -> Cmd msg
@@ -51,7 +51,7 @@ update msg model =
       (Model newFace model.listo, Cmd.none)
     Check ->
       ( model, check ((toString model.dieFace) ++ (toString model.listo)) )
-    Suggest newSuggestions ->
+    Watson newSuggestions ->
       ( Model model.dieFace newSuggestions , Cmd.none )
 
 
@@ -62,7 +62,7 @@ port suggestions : (List String -> msg) -> Sub msg
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-  suggestions Suggest
+  suggestions Watson
 
 
 

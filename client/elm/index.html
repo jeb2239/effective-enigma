@@ -6,18 +6,23 @@
     var node = document.getElementById('dumb');
     var app = Elm.Dumb.embed(node);
 
-	app.ports.check.subscribe(function(word) {
+	//app.ports.check1.subscribe(function(word) {
 
-        console.log("hello js")
-		var suggestions = ["suggestions"];
-		app.ports.suggestions.send(suggestions);
-    });
+      //  console.log("hello js")
+		//var suggestions = ["suggestions"];
+		//app.ports.suggestions.send(suggestions);
+   // });
 	//watson_bindings.run();
 	//console.log(this);
 
     app.ports.check.subscribe(function(phrase){
-        var watson = watson_bindings.getWatson(phrase)
-        app.ports.watson.send(watson)
+        var watson = watson_bindings.getWatson(phrase).then(response1 => {
+            var resp = JSON.stringify(response1, null, 2);
+            console.log(resp);
+            //return watson_bindings.message()
+            app.ports.watson.send([resp])
+        })
+        
     });
     // Note: if your Elm module is named "MyThing.Root" you
     // would call "Elm.MyThing.Root.embed(node)" instead.

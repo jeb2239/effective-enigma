@@ -1,6 +1,7 @@
 var prompt = require('prompt-sync')();
 var ConversationV1 = require('watson-developer-cloud/conversation/v1');
-var promise = require('promise')
+var promise = require('promise');
+
 
 // Set up Conversation service.
 var conversation = new ConversationV1({
@@ -8,7 +9,7 @@ var conversation = new ConversationV1({
   password: 'LFPqmWlRfOQd', // replace with password from service key
   path: { workspace_id: '2187bd3d-1528-4831-bc39-bd5899e50612' }, // replace with workspace ID
   version_date: '2017-03-06'
-})
+});
 
 // Start conversation with empty message.
 console.log("hi")
