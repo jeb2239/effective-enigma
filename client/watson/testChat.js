@@ -6,8 +6,8 @@ var conversation = new ConversationV1({
   username: '7e5cdf3e-63f4-4de7-8be0-2a794c3c67fd', // replace with username from service key
   password: 'LFPqmWlRfOQd', // replace with password from service key
   path: { workspace_id: '2187bd3d-1528-4831-bc39-bd5899e50612' }, // replace with workspace ID
-  version_date: '2017-06-03'
-});
+  version_date: '2017-03-06'
+})
 
 // Start conversation with empty message.
 conversation.message({}, processResponse);
