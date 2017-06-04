@@ -10,6 +10,10 @@ var conversation = new ConversationV1({
   path: { workspace_id: '2187bd3d-1528-4831-bc39-bd5899e50612' }, // replace with workspace ID
   version_date: '2017-03-06'
 });
+conversation.setHeader("Access-Control-Allow-Origin", "*");
+conversation.setHeader("Access-Control-Allow-Credentials", "true");
+conversation.setHeader("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
+conversation.setHeader("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
 /**
  * @return {Promise<String>} returns a promise that resolves to a string token
  */
