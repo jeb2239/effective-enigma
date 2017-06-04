@@ -35,5 +35,3 @@ https://effective-enigma.mybluemix.net/index.html
  * The Game State is updated in the app and the DB through loopback
 
 
-## MakeFile
- * The boot script can be run using make
