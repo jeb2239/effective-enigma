@@ -58,21 +58,21 @@ type alias Model =
   , input : String
   , currentQuestion : String
   , currentAnswer : String
-  , numberOfQuestionsAsked : Int
-  , numberOfGoodQuestionsAsked : Int
+ -- , numberOfQuestionsAsked : Int
+ -- , numberOfGoodQuestionsAsked : Int
   , inputEnabled : Bool
-  , triggerWords : List String
-  , questionWords : List String
+  --, triggerWords : List String
+  --, questionWords : List String
   , questionsAsked : List String
   , answersGiven : List String
-  , generalAnswers : List String
-  , annoyedAnswers : List String
-  , angryAnswers : List String
-  , askButtonDisabled : Bool
-  , finishedAngryAnswers : List String
-  , finishedPoliteAnswers : List String
-  , questionNotClearAnswers : List String
-  , newAnswerGenerated : Bool
+  --, generalAnswers : List String
+  --, annoyedAnswers : List String
+  --, angryAnswers : List String
+  --, askButtonDisabled : Bool
+  --, finishedAngryAnswers : List String
+  --, finishedPoliteAnswers : List String
+  --, questionNotClearAnswers : List String
+  --, newAnswerGenerated : Bool
   , questionTextStyle : Animation.Messenger.State Msg
   , answerTextStyle : Animation.Messenger.State Msg
   , instructionBoxStyle : Animation.Messenger.State Msg
@@ -90,7 +90,7 @@ init =
   , numberOfQuestionsAsked = 0
   , numberOfGoodQuestionsAsked = 0
   , inputEnabled = True
-  , triggerWords = ["hello"] -- Data.triggerWords
+  -- , triggerWords = ["hello"] -- Data.triggerWords
   , questionWords = ["a question word"] -- Data.questionWords
   , questionsAsked = ["a new word"]
   , answersGiven = ["a cat in a hat"]
@@ -185,7 +185,7 @@ decodeWatsonResp =
 -- `goodQuestion` checks whether there are any common words between the
 -- list of trigger words and the array of the model's `currentQuestion` string
 -- goodQuestion: { a | currentQuestion : String, triggerWords : List String } -> Bool
-
+{--
 goodQuestion model =
   let
 
@@ -202,7 +202,7 @@ goodQuestion model =
       List.filter (\x -> List.member x first)
   in 
   List.length (sharedElements currentQuestionArray model.triggerWords) /= 0
-
+--}
 
 -- `isNotAQuestion` returns true if the player has not asked a question
 isNotAQuestion model =
@@ -224,7 +224,7 @@ isNotAQuestion model =
 
 
 -- Find out what the current type of answer the prime minister is responding with
-currentAnswerType model =
+{-- currentAnswerType model =
   if model.numberOfQuestionsAsked == 0 then
     None
 
@@ -275,7 +275,7 @@ currentAnswerType model =
   else 
     General
 
-
+--}
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
@@ -369,19 +369,18 @@ update msg model =
 
         -- Increase the "questions asked" counters based on what kind of question the user has asked
         newModel =
-          if goodQuestion model then
+          
             { model 
                 | numberOfQuestionsAsked = model.numberOfQuestionsAsked + 1
-                , numberOfGoodQuestionsAsked = model.numberOfGoodQuestionsAsked + 1
                 , inputEnabled = True 
                 , newAnswerGenerated = True
             }
-          else
-            { model 
-                | numberOfQuestionsAsked = model.numberOfQuestionsAsked + 1
-                , inputEnabled = True
-                , newAnswerGenerated = True
-            }
+          
+            -- { model 
+            --     | numberOfQuestionsAsked = model.numberOfQuestionsAsked + 1
+            --     , inputEnabled = True
+            --     , newAnswerGenerated = True
+            -- }
 
       in
 
@@ -390,68 +389,47 @@ update msg model =
       -- model0 ! [ cmd ]
       update GenerateAnswer newModel
 
-    GenerateAnswer ->
-      let
 
-        -- Return the length of each list, based on the relevant Answer type 
-        randomRange answerType =
-          case answerType of
-            General ->
-              (List.length model.generalAnswers) - 1
 
-            Annoyed ->
-              (List.length model.annoyedAnswers) - 1
+    -- GenerateAnswer ->
+    --   let
 
-            Angry ->
-              (List.length model.angryAnswers) - 1
+    --     -- Return the length of each list, based on the relevant Answer type 
+    --     randomRange answerType =
+    --       case answerType of
+    --         General ->
+    --           (List.length model.generalAnswers) - 1
 
-            FinishedAngry ->
-              (List.length model.finishedAngryAnswers) - 1
+    --         Annoyed ->
+    --           (List.length model.annoyedAnswers) - 1
 
-            FinishedPolite ->
-              (List.length model.finishedPoliteAnswers) - 1
+    --         Angry ->
+    --           (List.length model.angryAnswers) - 1
 
-            QuestionNotClear ->
-              (List.length model.questionNotClearAnswers) - 1
+    --         FinishedAngry ->
+    --           (List.length model.finishedAngryAnswers) - 1
+
+    --         FinishedPolite ->
+    --           (List.length model.finishedPoliteAnswers) - 1
+
+    --         QuestionNotClear ->
+    --           (List.length model.questionNotClearAnswers) - 1
       
-            None ->
-              (List.length model.generalAnswers) - 1
+    --         None ->
+    --           (List.length model.generalAnswers) - 1
         
-        createCommandFrom : Answer -> Cmd Msg
-        createCommandFrom answerType =
-          Random.generate (GetAnswer answerType) (Random.int 0 (randomRange answerType))
+    --     createCommandFrom : Answer -> Cmd Msg
+    --     createCommandFrom answerType =
+    --       Random.generate (GetAnswer answerType) (Random.int 0 (randomRange answerType))
 
-      in
-      -- Return the model with the correct state, and return the correct command, 
-      -- based on the kind of question the user has asked
-      model ! [ createCommandFrom (currentAnswerType model) ]
+    --   in
+    --   -- Return the model with the correct state, and return the correct command, 
+    --   -- based on the kind of question the user has asked
+    --   model ! [ createCommandFrom (currentAnswerType model) ]
 
 
-    GetAnswer answerType randomNumber ->
+    GetAnswer answerType ->
       let
-        list = 
-          case answerType of
-            QuestionNotClear ->
-              model.questionNotClearAnswers
-
-            Angry ->
-              model.angryAnswers
-
-            General ->
-              model.generalAnswers
-
-            Annoyed ->
-              model.annoyedAnswers
-
-            FinishedAngry ->
-              model.finishedAngryAnswers
-
-            FinishedPolite ->
-              model.finishedPoliteAnswers
-
-            None ->
-              model.generalAnswers
-
         answer = 
           List.Extra.getAt randomNumber list
           |> Maybe.withDefault "Can't find answer" 
@@ -1134,9 +1112,8 @@ view model =
         -- The instruction text and newspaper clipping
         [ div (Animation.render model.instructionBoxStyle ++ [ instructionBoxStyle ]) 
           [ h1 [ titleStyle ] [ text "Interview the Prime Minister" ]
-          , img [ src (defaults.imagesLocation ++ "newspaperClippingMedium.png"), newspaperClippingImageStyle ] [ ]
           , div [ instructionsContainerStyle ] 
-            [ Markdown.toHtml [ instructionsStyle ]  "hey"
+            [ Markdown.toHtml [ instructionsStyle ]  "## Watson Chat Bot"
             ]
           ]
 
