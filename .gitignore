@@ -21,3 +21,6 @@ node_modules
 npm-debug.log
 main.js
 dumb.js
+./server/models/datasources.json
+cloudant_credentials.json
+vcap-local.example.json
