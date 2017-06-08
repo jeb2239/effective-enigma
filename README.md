@@ -35,5 +35,6 @@ https://effective-enigma.mybluemix.net/index.html
  * The Game State is updated in the app and the DB through loopback
 
 
-## MakeFile
- * The boot script can be run using make
+<a href="http://www.wtfpl.net/"><img
+       src="http://www.wtfpl.net/wp-content/uploads/2012/12/wtfpl-badge-4.png"
+       width="80" height="15" alt="WTFPL" /></a>
